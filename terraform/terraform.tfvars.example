@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars and fill with real values.
+# NEVER commit terraform.tfvars to git.
+
+project_name = "erp"
+environment   = "dev"
+aws_region    = "me-central-1"
