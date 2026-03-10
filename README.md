@@ -24,7 +24,8 @@ cd backend && npm install && cp .env.example .env && npm run dev
 ```
 
 Frontend: http://localhost:5173  
-Backend: http://localhost:3000 (health: http://localhost:3000/health)
+Backend: http://localhost:3000 (health: http://localhost:3000/health)  
+**AMI test page:** http://localhost:5173/calls-test
 
 ### Настройка
 
