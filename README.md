@@ -34,3 +34,4 @@ Backend: http://localhost:3000 (health: http://localhost:3000/health)
 
 - [Проектная документация](Zoho_CRM_Telephony_Integration_Project_Documentation.md)
 - [Инструкция по настройке](docs/SETUP.md)
+- [Инфраструктура AWS — что НЕ трогать](docs/INFRASTRUCTURE.md)
