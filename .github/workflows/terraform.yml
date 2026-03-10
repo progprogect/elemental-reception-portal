@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'terraform/**'
+      - '.github/workflows/terraform.yml'
   pull_request:
     branches: [main]
     paths:
       - 'terraform/**'
+      - '.github/workflows/terraform.yml'
 
 env:
   TF_VERSION: '1.7.0'
@@ -46,9 +48,9 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform
-        run: terraform plan -out=tfplan
+        run: terraform plan -lock=false -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         working-directory: terraform
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -lock=false -auto-approve tfplan
