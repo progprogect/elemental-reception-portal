@@ -1,8 +1,12 @@
-# PostgreSQL backend for Terraform state.
-# Set PG_CONN_STR env var before terraform init, e.g.:
-#   export PG_CONN_STR=postgres://user:pass@host:port/dbname?sslmode=require
-# NEVER commit conn_str to git.
+# S3 backend for Terraform state (изолированные ресурсы erp-*).
+# Для миграции на PostgreSQL — см. docs/SETUP.md
 
 terraform {
-  backend "pg" {}
+  backend "s3" {
+    bucket         = "erp-terraform-state-760221990195"
+    key            = "erp/terraform.tfstate"
+    region         = "me-central-1"
+    dynamodb_table = "erp-terraform-lock"
+    encrypt        = true
+  }
 }

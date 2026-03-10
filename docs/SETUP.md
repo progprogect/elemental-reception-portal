@@ -1,19 +1,6 @@
 # Инструкция по настройке
 
-## 1. PostgreSQL для Terraform state
-
-Создайте PostgreSQL (один из вариантов):
-
-- **Railway** — [railway.app](https://railway.app), free tier
-- **Supabase** — [supabase.com](https://supabase.com), free tier 500MB
-- **Neon** — [neon.tech](https://neon.tech), free tier
-
-Создайте базу данных и получите connection string:
-```
-postgres://user:password@host:port/dbname?sslmode=require
-```
-
-## 2. GitHub Secrets
+## 1. GitHub Secrets
 
 Добавьте в GitHub → Settings → Secrets and variables → Actions:
 
@@ -21,7 +8,8 @@ postgres://user:password@host:port/dbname?sslmode=require
 |--------|----------|
 | `AWS_ACCESS_KEY_ID` | IAM user access key |
 | `AWS_SECRET_ACCESS_KEY` | IAM user secret key |
-| `TF_BACKEND_PG_CONN_STR` | PostgreSQL connection string для Terraform state |
+
+Terraform state хранится в S3 (bucket `erp-terraform-state-*`), lock — в DynamoDB (`erp-terraform-lock`).
 
 **Важно:** Никогда не коммитьте credentials в код.
 
@@ -55,10 +43,10 @@ npm run dev
 ### Terraform
 ```bash
 cd terraform
-export PG_CONN_STR="postgres://user:pass@host:port/dbname?sslmode=require"
+export AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... AWS_REGION=me-central-1
 terraform init
 terraform plan
-# terraform apply  # после проверки plan
+# terraform apply -auto-approve  # после проверки plan
 ```
 
 ## 5. Безопасность

@@ -2,8 +2,13 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# Используем только me-central-1a и me-central-1c (1b может быть временно недоступна)
+locals {
+  azs = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[2]]
+}
+
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = "10.1.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
 
@@ -16,7 +21,7 @@ resource "aws_subnet" "public" {
   count                   = 2
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)
-  availability_zone       = data.aws_availability_zones.available.names[count.index]
+  availability_zone       = local.azs[count.index]
   map_public_ip_on_launch = true
 
   tags = {
@@ -28,7 +33,7 @@ resource "aws_subnet" "private" {
   count             = 2
   vpc_id            = aws_vpc.main.id
   cidr_block        = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index + 10)
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  availability_zone = local.azs[count.index]
 
   tags = {
     Name = "${var.project_name}-private-${count.index + 1}"

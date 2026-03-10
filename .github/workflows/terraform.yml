@@ -34,8 +34,6 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform
-        env:
-          PG_CONN_STR: ${{ secrets.TF_BACKEND_PG_CONN_STR }}
         run: terraform init
 
       - name: Terraform Format Check
